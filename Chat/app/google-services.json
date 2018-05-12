@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "578770962504",
+    "firebase_url": "https://chutchatchit-1e445.firebaseio.com",
+    "project_id": "chutchatchit-1e445",
+    "storage_bucket": "chutchatchit-1e445.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578770962504:android:a4e21258f0edb6ab",
+        "android_client_info": {
+          "package_name": "vn.tut.lamh.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578770962504-rtd6l24dcke8ncl48i531esis197cnqf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.tut.lamh.chat",
+            "certificate_hash": "b35319f9b8328549069d1bc71205d8a56fbc6846"
+          }
+        },
+        {
+          "client_id": "578770962504-g44s5pi3ab4curdubi4ldqshv4hlsvcn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZPj2FyifavremmOvefK8YfKSr31xJSrc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578770962504-g44s5pi3ab4curdubi4ldqshv4hlsvcn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
