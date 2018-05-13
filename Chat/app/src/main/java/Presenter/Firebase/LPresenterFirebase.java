@@ -1,8 +1,16 @@
 package Presenter.Firebase;
 
+import android.util.Log;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
+import Model.ObjectClass.InfoChat;
 import Model.ObjectClass.User;
 import vn.tut.lamh.chat.Firebase.ViewFirebase;
 
@@ -14,11 +22,13 @@ public class LPresenterFirebase implements IPresenterFirebase {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference mData ;
     ViewFirebase viewFirebase;
+    ArrayList<InfoChat> duLieuDaChat;
 
     public LPresenterFirebase(ViewFirebase viewFirebase) {
         this.viewFirebase = viewFirebase;
         firebaseDatabase = FirebaseDatabase.getInstance();
         mData = firebaseDatabase.getReference();
+        duLieuDaChat = new ArrayList<>();
     }
 
     @Override
@@ -28,7 +38,44 @@ public class LPresenterFirebase implements IPresenterFirebase {
     }
 
     @Override
-    public void taoNodeChatGiua2Nguoi(String roomID, String noidungchat) {
-        mData.child(roomID).push().setValue(noidungchat);
+    public void taoNodeChatGiua2Nguoi(String roomID, InfoChat infoChat) {
+        mData.child(roomID).push().setValue(infoChat);
+    }
+
+    @Override
+    public void xuLyDuLieuGroupChatTrenFirebase() {
+        mData.child("1").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                duLieuDaChat.add(dataSnapshot.getValue().toString());
+//                Log.d("firebase", dataSnapshot.toString());
+//                DataSnapshot x = dataSnapshot.child(dataSnapshot.getKey().toString());
+                Log.d("id_user", dataSnapshot.getValue(InfoChat.class)+"");
+                duLieuDaChat.add(dataSnapshot.getValue(InfoChat.class));
+                if(duLieuDaChat.size()>0) viewFirebase.hienThiDanhSachInfoChat(duLieuDaChat);
+                else viewFirebase.hienThiDanhSachThatBai();
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void kiemTraDangNhap(User user) {
+
     }
 }

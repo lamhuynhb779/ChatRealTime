@@ -12,8 +12,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
+import Model.ObjectClass.InfoChat;
 import Model.ObjectClass.User;
 import Presenter.Firebase.LPresenterFirebase;
 import Presenter.SharePreferences.LPresenterMySharePreferences;
@@ -122,6 +124,16 @@ public class LoginActivity extends AppCompatActivity implements ViewFirebase, Vi
 
     @Override
     public void guiNoiDungChat2NguoiThanhCong() {
+
+    }
+
+    @Override
+    public void hienThiDanhSachInfoChat(ArrayList<InfoChat> infoChats) {
+
+    }
+
+    @Override
+    public void hienThiDanhSachThatBai() {
 
     }
 

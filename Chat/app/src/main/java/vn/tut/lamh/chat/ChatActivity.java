@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,15 +29,15 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import Adapters.ChatAdapter;
+import Model.ObjectClass.InfoChat;
 import Model.ObjectClass.RowChat;
 import Presenter.Firebase.LPresenterFirebase;
 import Presenter.SharePreferences.LPresenterMySharePreferences;
-import QuanLyChat.ChatFireBase;
 import EditImage.XuLyAnh;
 import vn.tut.lamh.chat.Firebase.ViewFirebase;
 import vn.tut.lamh.chat.SharePreferences.ViewSharePreferences;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ViewFirebase, ViewSharePreferences
+public class ChatActivity extends AppCompatActivity implements View.OnClickListener, ViewFirebase, ViewSharePreferences
 {
     TextView txtvChatWith;
     private EditText edtNoiDung;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String chatWith;
     private LPresenterFirebase lPresenterFirebase;
     private LPresenterMySharePreferences lPresenterMySharePreferences;
-
+    private String userName = "", id_user = "";
 
     private Socket mSocket;
     {
@@ -58,10 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (URISyntaxException e) {}
     }
 
-    private ChatFireBase chatFireBase;
-
-    private ArrayList<String> oldData = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,12 +66,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Thưc hiện kết nối lên server
         mSocket.connect();
         //Client on
-        mSocket.on("server-gui-tin-chat", nhanDuLieuChat);
-        mSocket.on("server-gui-anh-chat", nhanAnhChat);
+//        mSocket.on("server-gui-tin-chat", nhanDuLieuChat);
+//        mSocket.on("server-gui-anh-chat", nhanAnhChat);
 
         addControls();
         addEvents();
         //loadLaiDuLieuDaChat();
+        lPresenterFirebase.xuLyDuLieuGroupChatTrenFirebase();
     }
 
 //    private void loadLaiDuLieuDaChat() {
@@ -134,9 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void addControls() {
         txtvChatWith = (TextView) findViewById(R.id.txtvChatWith);
         mangNoiDungChat = new ArrayList<>();
-        adapterNoiDungChat = new ChatAdapter(MainActivity.this,R.layout.sample_chat, mangNoiDungChat);
+//        adapterNoiDungChat = new ChatAdapter(ChatActivity.this,R.layout.sample_chat, mangNoiDungChat);
         lvNoiDungChat = (ListView) findViewById(R.id.lvNoiDungChat);
-        lvNoiDungChat.setAdapter(adapterNoiDungChat);
+//        lvNoiDungChat.setAdapter(adapterNoiDungChat);
         btnGui = (Button) findViewById(R.id.btnGui);
         edtNoiDung = (EditText) findViewById(R.id.edtNoiDung);
         btnHinh = (Button) findViewById(R.id.btnHinh);
@@ -151,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             txtvChatWith.setText(chatWith);
         btnGui.setOnClickListener(this);
         btnHinh.setOnClickListener(this);
+        userName = lPresenterMySharePreferences.getInstance(this).getString("USERNAME","");
+        id_user = lPresenterMySharePreferences.getInstance(this).getString("ID","");
     }
 
     @Override
@@ -198,7 +198,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void xuLyGuiNoiDungChatLenFirebase(String noidungchat) {
-        lPresenterFirebase.taoNodeChatGiua2Nguoi("1", noidungchat);
+        InfoChat infoChat = new InfoChat();
+        infoChat.setUsername(userName);
+        infoChat.setId_user(id_user);
+        infoChat.setNoidungchat(noidungchat);
+        lPresenterFirebase.taoNodeChatGiua2Nguoi("1", infoChat);
     }
 
     private void xuLyGuiNoiDungChatLenServer(String noidungchat) {
@@ -206,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean laTui(String usernameArriveFromServer) {
-        if(usernameArriveFromServer.equals(lPresenterMySharePreferences.getInstance(this).getString("USERNAME","")))
+        if(usernameArriveFromServer.equals(userName))
             return true;
         return false;
     }
@@ -218,7 +222,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void guiNoiDungChat2NguoiThanhCong() {
-        Toast.makeText(MainActivity.this, "Gửi nội dung chat giữa 2 người thành công!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ChatActivity.this, "Gửi nội dung chat giữa 2 người thành công!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void hienThiDanhSachInfoChat(ArrayList<InfoChat> infoChats) {
+//        Log.d("infochat", infoChats.get(0).getNoidungchat()+"");
+        ArrayList<RowChat> rowChats = new ArrayList<>();
+        for (int i = 0; i < infoChats.size(); i++){
+            String noidungchat = infoChats.get(i).getNoidungchat();
+            String id = infoChats.get(i).getId_user();
+            String username = infoChats.get(i).getUsername();
+            RowChat rowChat = new RowChat();
+            if(id_user.equals(id)) {
+                rowChat.setUsernameChat(userName);
+                rowChat.setLaTui(true);
+            }
+            else{
+                rowChat.setUsernameChat(username);
+                rowChat.setLaTui(false);
+            }
+            rowChat.setNoiDungChat(noidungchat);
+            rowChats.add(rowChat);
+        }
+        adapterNoiDungChat = new ChatAdapter(ChatActivity.this,R.layout.sample_chat, rowChats);
+        lvNoiDungChat.setAdapter(adapterNoiDungChat);
+    }
+
+    @Override
+    public void hienThiDanhSachThatBai() {
+
     }
 
     @Override

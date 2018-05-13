@@ -1,5 +1,8 @@
 package Presenter.Firebase;
 
+import java.util.ArrayList;
+
+import Model.ObjectClass.InfoChat;
 import Model.ObjectClass.User;
 
 /**
@@ -9,5 +12,7 @@ import Model.ObjectClass.User;
 public interface IPresenterFirebase
 {
     void themUserVaoFirebase(User user);
-    void taoNodeChatGiua2Nguoi(String roomID, String noidungchat);
+    void taoNodeChatGiua2Nguoi(String roomID, InfoChat infoChat);
+    void xuLyDuLieuGroupChatTrenFirebase();
+    void kiemTraDangNhap(User user);
 }

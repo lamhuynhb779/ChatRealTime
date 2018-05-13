@@ -68,7 +68,7 @@ public class FriendListActivity extends AppCompatActivity implements ViewSharePr
         friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent1 = new Intent(FriendListActivity.this, MainActivity.class);
+                Intent intent1 = new Intent(FriendListActivity.this, ChatActivity.class);
                 intent1.putExtra("FRIEND",arrayList.get(i).toString());
                 startActivity(intent1);
             }
