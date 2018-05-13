@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import Model.ModelFirebase.ModelFirebase;
 import Model.ObjectClass.InfoChat;
 import Model.ObjectClass.User;
 import Presenter.Firebase.LPresenterFirebase;

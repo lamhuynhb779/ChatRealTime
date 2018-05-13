@@ -11,6 +11,8 @@ import Model.ObjectClass.InfoChat;
 public interface ViewFirebase
 {
     void dangKyThongCong();
+    void dangNhapThanhCong();
+    void dangNhapThatBai();
     void guiNoiDungChat2NguoiThanhCong();
     void hienThiDanhSachInfoChat(ArrayList<InfoChat> infoChats);
     void hienThiDanhSachThatBai();

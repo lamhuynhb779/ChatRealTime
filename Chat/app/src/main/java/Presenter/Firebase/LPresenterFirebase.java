@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
@@ -75,7 +76,40 @@ public class LPresenterFirebase implements IPresenterFirebase {
     }
 
     @Override
-    public void kiemTraDangNhap(User user) {
+    public void kiemTraDangNhap(final User user) {
+        Query query = mData.child("users").orderByChild("id").equalTo("85b9fccc-1be7-437e-b905-d6ed93bcb753");
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.d("query", dataSnapshot.getValue(User.class)+"");
+                User ressultUser = dataSnapshot.getValue(User.class);
+                String id = ressultUser.getId();
+                String username = ressultUser.getUsername();
+                String password = ressultUser.getPassword();
+                if(user.getUsername().equals(username) && user.getPassword().equals(password)){
+                    viewFirebase.dangNhapThanhCong();
+                }else viewFirebase.dangNhapThatBai();
+            }
 
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
