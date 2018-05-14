@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity implements ViewFirebase, Vi
     CheckBox chkRMB;
     Button btnRegister, btnLogin, txtvRegister, txtvLogin;
     ProgressDialog progressDialog;
-    public static String linkConnectServer = "http://192.168.1.3:3000";//"https://kimhungpham779.github.io/";
+    public static String linkConnectServer = "http://192.168.1.6:3000";//"https://kimhungpham779.github.io/";
     LPresenterMySharePreferences lPresenterMySharePreferences;
     LPresenterFirebase lPresenterFirebase;
 

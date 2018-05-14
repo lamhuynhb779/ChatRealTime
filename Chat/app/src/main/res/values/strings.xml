@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Chat</string>
     <string name="SHA1">B3:53:19:F9:B8:32:85:49:06:9D:1B:C7:12:05:D8:A5:6F:BC:68:46</string>
+    <string name="create_floating_widget">Create Floating Widget</string>
+    <string name="floating_widget_label">Floating Widget Label</string>
+    <string name="floating_widget_details">Floating Widget Details</string>
+    <string name="draw_other_app_permission_denied">Draw over other app permission not available. App won\'t work without permission. Please try again.</string>
 </resources>
